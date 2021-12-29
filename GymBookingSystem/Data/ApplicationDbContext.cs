@@ -20,9 +20,22 @@ namespace GymBookingSystem.Data
 
         public DbSet<Reservation> Reservations { get; set; }
 
+
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
+
+            //machine data seeding
+            modelBuilder.Entity<Machine>().HasData(
+                new Machine { Name = "Machine1"  },
+                new Machine { Name = "Machine2"  },
+                new Machine { Name = "Machine3"  },
+                new Machine { Name = "Machine4"  },
+                new Machine { Name = "Machine5"  }
+                
+                
+                );
 
             modelBuilder.Entity<Reservation>()
             .HasKey(t => new { t.Id, t.UserId, t.MachineId });
