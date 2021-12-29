@@ -1,8 +1,7 @@
 ﻿@page "/reservation"
-@using GymBookingSystem.Data.Models
-@inject GymBookingSystem.Logic.Interfaces.Service.IMachineService machineService
-@inject GymBookingSystem.Logic.Interfaces.Service.IReservationService reservationService
-@inject MudBlazor.ISnackbar snackBar
+@inject IMachineService machineService
+@inject IReservationService reservationService
+@inject ISnackbar snackBar
 
 <MudCard Class="pa-4 mr-16">
     <MudItem xs="12" sm="6" md="4">
