@@ -37,13 +37,27 @@
     private Reservation reservation = new Reservation();
 
     private List<Machine> machines = new List<Machine>();
+    private List<Reservation> reservations = new List<Reservation>();
 
+     protected override async Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+        
+        GetMachines();
+        GetReservations();
+    }
     
 
      private List<Machine> GetMachines()
     {
         machines = machineService.GetMachines();
         return machines;
+    }
+
+    private List<Reservation> GetReservations()
+    {
+        reservations = reservationService.GetReservations();
+        return reservations;
     }
 
    
