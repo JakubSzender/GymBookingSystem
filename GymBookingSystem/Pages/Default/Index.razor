@@ -1,0 +1,24 @@
+﻿@page "/"
+
+<MudContainer MaxWidth="MaxWidth.ExtraLarge" Class="mt-16">
+
+    <MudText Typo="Typo.h3" Align="Align.Center" GutterBottom="true">Welcome </MudText>
+    <MudText Typo="Typo.h4" Align="Align.Center" GutterBottom="true"> @authState.User.Identity.Name</MudText>
+    <MudText Class="mb-8" Align="Align.Center">In this app you can reservate gymmachine for selected hour</MudText>
+</MudContainer>
+
+
+
+
+
+@code{
+    [CascadingParameter]
+    private Task<AuthenticationState> _authState { get; set; }
+
+    private AuthenticationState authState;
+
+    protected override async Task OnInitializedAsync()
+    {
+        authState = await _authState;
+    }
+}

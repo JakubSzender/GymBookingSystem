@@ -1,0 +1,62 @@
+﻿@page "/reservation"
+@using GymBookingSystem.Data.Models
+@inject GymBookingSystem.Logic.Interfaces.Service.IMachineService machineService
+@inject GymBookingSystem.Logic.Interfaces.Service.IReservationService reservationService
+@inject MudBlazor.ISnackbar snackBar
+
+<MudCard Class="pa-4 mr-16">
+    <MudItem xs="12" sm="6" md="4">
+        <MudSelect T="int" Label="Select Machine" Variant="Variant.Outlined" Margin="Margin.Normal" @bind-Value="machine.Id">
+            @foreach (var machine in machines)
+            {
+                <MudSelectItem Value="@(machine.Id)"> @(machine.Name) </MudSelectItem>
+            }
+        </MudSelect>
+
+        
+
+    </MudItem>
+
+    <MudItem xs="12" sm="6" md="4">
+        <MudDatePicker Label="When you want to start?" Margin="Margin.Normal" @bind-Date="reservation.ReservationDate" MinDate="DateTime.Now" MaxDate="DateTime.Now.AddDays(7)" />
+    </MudItem>
+
+    <MudItem xs="12" sm="6" md="4">
+        <MudTimePicker Label="10-18" Margin="Margin.Normal" @bind-Time="reservation.StartHour" />
+    </MudItem>
+
+              
+
+    <MudButton Variant="Variant.Filled" Color="Color.Success" OnClick="Save">Save</MudButton>
+
+</MudCard>
+
+@code {
+    
+
+    private Machine machine = new Machine();
+    private Reservation reservation = new Reservation();
+
+    private List<Machine> machines = new List<Machine>();
+
+    
+
+     private List<Machine> GetMachines()
+    {
+        machines = machineService.GetMachines();
+        return machines;
+    }
+
+   
+
+    private void Save()
+    {
+
+        reservationService.SaveReservation(reservation);
+        reservation = new Reservation();
+
+        snackBar.Add("Saved.", Severity.Success);
+
+        
+    }
+}
