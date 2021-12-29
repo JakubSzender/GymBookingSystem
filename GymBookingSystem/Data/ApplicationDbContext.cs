@@ -28,11 +28,13 @@ namespace GymBookingSystem.Data
 
             //machine data seeding
             modelBuilder.Entity<Machine>().HasData(
-                new Machine { Name = "Machine1"  },
-                new Machine { Name = "Machine2"  },
-                new Machine { Name = "Machine3"  },
-                new Machine { Name = "Machine4"  },
-                new Machine { Name = "Machine5"  }
+                new Machine { Id =1 ,Name = "Machine1"  },
+                new Machine { Id =2 ,Name = "Machine2"  },
+                new Machine { Id =3 ,Name = "Machine3"  },
+                new Machine { Id =4 ,Name = "Machine4"  },
+                new Machine { Id =5 ,Name = "Machine5"  },
+                new Machine { Id =6 ,Name = "Machine6"  }
+               
                 
                 
                 );
