@@ -40,12 +40,12 @@ namespace GymBookingSystem.Data
                 );
 
             modelBuilder.Entity<Reservation>()
-            .HasKey(t => new { t.Id, t.UserId, t.MachineId });
+            .HasKey(t => new { t.Id, t.Email, t.MachineId });
 
             modelBuilder.Entity<Reservation>()
            .HasOne(pt => pt.ApplicationUser)
            .WithMany(p => p.Reservations)
-           .HasForeignKey(pt => pt.UserId);
+           .HasForeignKey(pt => pt.Email);
 
             modelBuilder.Entity<Reservation>()
                 .HasOne(pt => pt.Machine)
