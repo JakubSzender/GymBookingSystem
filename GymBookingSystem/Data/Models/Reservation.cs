@@ -12,7 +12,7 @@ namespace GymBookingSystem.Data.Models
         public TimeSpan? EndHour { get; set; }
 
 
-        public string Email { get; set; }
+        public string UserId{ get; set; }
         public virtual ApplicationUser ApplicationUser { get; set; }
 
         public int MachineId { get; set; }
