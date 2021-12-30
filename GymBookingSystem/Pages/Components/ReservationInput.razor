@@ -1,7 +1,12 @@
 ﻿@page "/reservation"
+
 @inject IMachineService machineService
 @inject IReservationService reservationService
 @inject ISnackbar snackBar
+
+
+@using Microsoft.AspNetCore.Identity;
+
 
 <MudCard Class="pa-4 mr-16">
     <MudItem xs="12" sm="6" md="4">
@@ -21,8 +26,10 @@
     </MudItem>
 
     <MudItem xs="12" sm="6" md="4">
-        <MudTimePicker Label="10-18" Margin="Margin.Normal" @bind-Time="reservation.StartHour" />
+        <MudTimePicker Label="10-18" Margin="Margin.Normal" @bind-Time="reservation.StartHour"  />
     </MudItem>
+
+    
 
               
 
@@ -31,7 +38,8 @@
 </MudCard>
 
 @code {
-    
+
+    public string UserId { get; set; }
 
     private Machine machine = new Machine();
     private Reservation reservation = new Reservation();
@@ -39,16 +47,22 @@
     private List<Machine> machines = new List<Machine>();
     private List<Reservation> reservations = new List<Reservation>();
 
-     protected override async Task OnInitializedAsync()
+    protected override async Task OnInitializedAsync()
     {
         await base.OnInitializedAsync();
-        
+
+
         GetMachines();
         GetReservations();
+
+
     }
+
+    
     
 
-     private List<Machine> GetMachines()
+
+    private List<Machine> GetMachines()
     {
         machines = machineService.GetMachines();
         return machines;
@@ -60,16 +74,26 @@
         return reservations;
     }
 
-   
+
 
     private void Save()
     {
-
+        
         reservationService.SaveReservation(reservation);
         reservation = new Reservation();
 
+        
+
+
         snackBar.Add("Saved.", Severity.Success);
 
+
+    }
+
+    private TimeSpan? EndHour()
+    {
+        return reservation.EndHour = reservation.StartHour + new TimeSpan(0, 15, 0);
         
     }
+    
 }
