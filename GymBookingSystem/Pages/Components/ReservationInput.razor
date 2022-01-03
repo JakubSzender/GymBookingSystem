@@ -2,6 +2,7 @@
 
 @inject IMachineService machineService
 @inject IReservationService reservationService
+@inject IUserService userService
 @inject ISnackbar snackBar
 
 
@@ -10,7 +11,7 @@
 
 <MudCard Class="pa-4 mr-16">
     <MudItem xs="12" sm="6" md="4">
-        <MudSelect T="int" Label="Select Machine" Variant="Variant.Outlined" Margin="Margin.Normal" @bind-Value="machine.Id">
+        <MudSelect T="int" Label="Select Machine" Variant="Variant.Outlined" Margin="Margin.Normal" @bind-Value="reservation.MachineId">
             @foreach (var machine in machines)
             {
                 <MudSelectItem Value="@(machine.Id)"> @(machine.Name) </MudSelectItem>
@@ -22,7 +23,7 @@
     </MudItem>
 
     <MudItem xs="12" sm="6" md="4">
-        <MudDatePicker Label="When you want to start?" Margin="Margin.Normal" @bind-Date="reservation.ReservationDate" MinDate="DateTime.Now" MaxDate="DateTime.Now.AddDays(7)" />
+        <MudDatePicker Label="When you want to start?" Margin="Margin.Normal" @bind-Date="reservation.ReservationDate" DateFormat="dd/MM/yyyy" MinDate="DateTime.Now" MaxDate="DateTime.Now.AddDays(7)" />
     </MudItem>
 
     <MudItem xs="12" sm="6" md="4">
@@ -51,15 +52,15 @@
     {
         await base.OnInitializedAsync();
 
-
+        GetUserId();
         GetMachines();
         GetReservations();
 
 
     }
 
-    
-    
+
+
 
 
     private List<Machine> GetMachines()
@@ -74,17 +75,17 @@
         return reservations;
     }
 
-
+    private string GetUserId()
+    {
+        reservation.UserId = userService.GetUserId();
+        return UserId;
+    }
 
     private void Save()
     {
-        
+        EndHour();
         reservationService.SaveReservation(reservation);
         reservation = new Reservation();
-
-        
-
-
         snackBar.Add("Saved.", Severity.Success);
 
 
