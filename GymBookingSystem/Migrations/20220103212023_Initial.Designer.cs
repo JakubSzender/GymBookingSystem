@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace GymBookingSystem.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20211230112356_Initial")]
+    [Migration("20220103212023_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -67,28 +67,31 @@ namespace GymBookingSystem.Migrations
             modelBuilder.Entity("GymBookingSystem.Data.Models.Reservation", b =>
                 {
                     b.Property<int>("Id")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<string>("Email")
-                        .HasColumnType("TEXT");
-
-                    b.Property<int>("MachineId")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
                     b.Property<TimeSpan?>("EndHour")
                         .HasColumnType("TEXT");
 
+                    b.Property<int>("MachineId")
+                        .HasColumnType("INTEGER");
+
                     b.Property<DateTime?>("ReservationDate")
+                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<TimeSpan?>("StartHour")
+                        .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.HasKey("Id", "Email", "MachineId");
+                    b.Property<string>("UserId")
+                        .HasColumnType("TEXT");
 
-                    b.HasIndex("Email");
+                    b.HasKey("Id");
 
                     b.HasIndex("MachineId");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("Reservations");
                 });
@@ -300,17 +303,15 @@ namespace GymBookingSystem.Migrations
 
             modelBuilder.Entity("GymBookingSystem.Data.Models.Reservation", b =>
                 {
-                    b.HasOne("GymBookingSystem.Data.Models.ApplicationUser", "ApplicationUser")
-                        .WithMany("Reservations")
-                        .HasForeignKey("Email")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("GymBookingSystem.Data.Models.Machine", "Machine")
                         .WithMany("Reservations")
                         .HasForeignKey("MachineId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.HasOne("GymBookingSystem.Data.Models.ApplicationUser", "ApplicationUser")
+                        .WithMany("Reservations")
+                        .HasForeignKey("UserId");
 
                     b.Navigation("ApplicationUser");
 

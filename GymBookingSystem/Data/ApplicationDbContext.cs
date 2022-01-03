@@ -39,8 +39,8 @@ namespace GymBookingSystem.Data
                 
                 );
 
-            modelBuilder.Entity<Reservation>()
-            .HasKey(t => new { t.Id, t.UserId, t.MachineId });
+            /*modelBuilder.Entity<Reservation>()
+            .HasKey(t => new { t.Id, t.UserId, t.MachineId });*/
 
             modelBuilder.Entity<Reservation>()
            .HasOne(pt => pt.ApplicationUser)

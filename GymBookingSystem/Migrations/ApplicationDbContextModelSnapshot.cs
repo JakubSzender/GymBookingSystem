@@ -65,24 +65,27 @@ namespace GymBookingSystem.Migrations
             modelBuilder.Entity("GymBookingSystem.Data.Models.Reservation", b =>
                 {
                     b.Property<int>("Id")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<string>("UserId")
-                        .HasColumnType("TEXT");
-
-                    b.Property<int>("MachineId")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
                     b.Property<TimeSpan?>("EndHour")
                         .HasColumnType("TEXT");
 
+                    b.Property<int>("MachineId")
+                        .HasColumnType("INTEGER");
+
                     b.Property<DateTime?>("ReservationDate")
+                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<TimeSpan?>("StartHour")
+                        .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.HasKey("Id", "UserId", "MachineId");
+                    b.Property<string>("UserId")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
 
                     b.HasIndex("MachineId");
 
@@ -306,9 +309,7 @@ namespace GymBookingSystem.Migrations
 
                     b.HasOne("GymBookingSystem.Data.Models.ApplicationUser", "ApplicationUser")
                         .WithMany("Reservations")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("UserId");
 
                     b.Navigation("ApplicationUser");
 

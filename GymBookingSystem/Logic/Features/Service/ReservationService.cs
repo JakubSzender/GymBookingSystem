@@ -34,7 +34,9 @@ namespace GymBookingSystem.Logic.Features.Service
         }
         public void SaveReservation(Reservation reservation)
         {
-            _dbContext.Reservations.Add(reservation);
+            if (reservation.Id == 0) _dbContext.Reservations.Add(reservation);
+            else _dbContext.Reservations.Update(reservation);
+            
             _dbContext.SaveChanges();
 
         }

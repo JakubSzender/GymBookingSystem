@@ -170,22 +170,23 @@ namespace GymBookingSystem.Migrations
                 name: "Reservations",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "INTEGER", nullable: false),
-                    Email = table.Column<string>(type: "TEXT", nullable: false),
-                    MachineId = table.Column<int>(type: "INTEGER", nullable: false),
-                    ReservationDate = table.Column<DateTime>(type: "TEXT", nullable: true),
-                    StartHour = table.Column<TimeSpan>(type: "TEXT", nullable: true),
-                    EndHour = table.Column<TimeSpan>(type: "TEXT", nullable: true)
+                    Id = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    ReservationDate = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    StartHour = table.Column<TimeSpan>(type: "TEXT", nullable: false),
+                    EndHour = table.Column<TimeSpan>(type: "TEXT", nullable: true),
+                    UserId = table.Column<string>(type: "TEXT", nullable: true),
+                    MachineId = table.Column<int>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Reservations", x => new { x.Id, x.Email, x.MachineId });
+                    table.PrimaryKey("PK_Reservations", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Reservations_AspNetUsers_Email",
-                        column: x => x.Email,
+                        name: "FK_Reservations_AspNetUsers_UserId",
+                        column: x => x.UserId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Reservations_Machine_MachineId",
                         column: x => x.MachineId,
@@ -262,14 +263,14 @@ namespace GymBookingSystem.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_Reservations_Email",
-                table: "Reservations",
-                column: "Email");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Reservations_MachineId",
                 table: "Reservations",
                 column: "MachineId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Reservations_UserId",
+                table: "Reservations",
+                column: "UserId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)

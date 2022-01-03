@@ -1,17 +1,16 @@
 ﻿@page "/reservation"
-
+@using System.ComponentModel.DataAnnotations
 @inject IMachineService machineService
 @inject IReservationService reservationService
 @inject IUserService userService
 @inject ISnackbar snackBar
 
 
-@using Microsoft.AspNetCore.Identity;
-
-
-<MudCard Class="pa-4 mr-16">
+<EditForm Model="@reservation" OnValidSubmit="OnValidSubmit">
+        <DataAnnotationsValidator />
+    <MudCard Class="pa-4 mr-16">
     <MudItem xs="12" sm="6" md="4">
-        <MudSelect T="int" Label="Select Machine" Variant="Variant.Outlined" Margin="Margin.Normal" @bind-Value="reservation.MachineId">
+        <MudSelect T="int" Label="Select Machine" Variant="Variant.Outlined" Margin="Margin.Normal" @bind-Value="reservation.MachineId" For="@(() => reservation.MachineId)">
             @foreach (var machine in machines)
             {
                 <MudSelectItem Value="@(machine.Id)"> @(machine.Name) </MudSelectItem>
@@ -23,24 +22,25 @@
     </MudItem>
 
     <MudItem xs="12" sm="6" md="4">
-        <MudDatePicker Label="When you want to start?" Margin="Margin.Normal" @bind-Date="reservation.ReservationDate" DateFormat="dd/MM/yyyy" MinDate="DateTime.Now" MaxDate="DateTime.Now.AddDays(7)" />
+        <MudDatePicker Label="When you want to start?" Margin="Margin.Normal" @bind-Date="reservation.ReservationDate" For="@(() => reservation.ReservationDate)" DateFormat="dd/MM/yyyy" MinDate="DateTime.Now" MaxDate="DateTime.Now.AddDays(7)"  />
     </MudItem>
 
     <MudItem xs="12" sm="6" md="4">
-        <MudTimePicker Label="10-18" Margin="Margin.Normal" @bind-Time="reservation.StartHour"  />
+        <MudTimePicker Label="10-18" Margin="Margin.Normal" @bind-Time="reservation.StartHour" For="@(() => reservation.StartHour)"  />
     </MudItem>
 
     
+    <MudCardActions>
+                <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Primary" Class="ml-auto" >Save</MudButton>
+    </MudCardActions>
 
-              
-
-    <MudButton Variant="Variant.Filled" Color="Color.Success" OnClick="Save">Save</MudButton>
-
-</MudCard>
+    </MudCard>
+</EditForm>
 
 @code {
 
-    public string UserId { get; set; }
+    private string UserId { get; set; }
+    bool success;
 
     private Machine machine = new Machine();
     private Reservation reservation = new Reservation();
@@ -48,20 +48,13 @@
     private List<Machine> machines = new List<Machine>();
     private List<Reservation> reservations = new List<Reservation>();
 
+
     protected override async Task OnInitializedAsync()
     {
         await base.OnInitializedAsync();
-
-        GetUserId();
         GetMachines();
         GetReservations();
-
-
     }
-
-
-
-
 
     private List<Machine> GetMachines()
     {
@@ -81,12 +74,21 @@
         return UserId;
     }
 
+    private void OnValidSubmit(EditContext context)
+    {
+        success = true;
+        StateHasChanged();
+        Save();
+    }
+
     private void Save()
     {
+        GetUserId();
         EndHour();
         reservationService.SaveReservation(reservation);
         reservation = new Reservation();
         snackBar.Add("Saved.", Severity.Success);
+
 
 
     }
@@ -94,7 +96,8 @@
     private TimeSpan? EndHour()
     {
         return reservation.EndHour = reservation.StartHour + new TimeSpan(0, 15, 0);
-        
+
     }
-    
+
+   
 }
