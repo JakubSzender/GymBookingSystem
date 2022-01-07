@@ -1,7 +1,12 @@
 ﻿<MudNavMenu>
-    <MudNavLink Href="" Match="NavLinkMatch.All" Icon="@Icons.Material.Filled.Home">Home</MudNavLink>
-    <MudNavLink Href="/reservation" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.Add">Make Reservation</MudNavLink>
-    <MudNavLink Href="/myreservations" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.Add">My Reservations</MudNavLink>
-    
-               
+    <AuthorizeView>
+        <Authorized>
+            <MudNavLink Href="" Match="NavLinkMatch.All" Icon="@Icons.Material.Filled.Home">Home</MudNavLink>
+            <MudNavLink Href="/reservation" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.Add">Make Reservation</MudNavLink>
+            <MudNavLink Href="/myreservations" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.Add">My Reservations</MudNavLink>
+        </Authorized>
+        <NotAuthorized>
+             <MudNavLink Href="" Match="NavLinkMatch.All" Icon="@Icons.Material.Filled.Home">Home</MudNavLink>
+        </NotAuthorized>
+    </AuthorizeView>
 </MudNavMenu>
