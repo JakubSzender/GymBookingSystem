@@ -1,7 +1,9 @@
+using FluentValidation;
 using GymBookingSystem.Areas.Identity;
 using GymBookingSystem.Data;
 using GymBookingSystem.Data.Models;
 using GymBookingSystem.Logic.Features.Service;
+using GymBookingSystem.Logic.Features.Validations;
 using GymBookingSystem.Logic.Interfaces.Service;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Components;
@@ -48,11 +50,11 @@ namespace GymBookingSystem
             services.AddServerSideBlazor();
             services.AddScoped<AuthenticationStateProvider, RevalidatingIdentityAuthenticationStateProvider<ApplicationUser>>();
             services.AddDatabaseDeveloperPageExceptionFilter();
-            services.AddSingleton<WeatherForecastService>();
             services.AddMudServices();
             services.AddScoped<IMachineService, MachineService>();
             services.AddScoped<IReservationService, ReservationService>();
             services.AddScoped<IUserService, UserService>();
+            
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

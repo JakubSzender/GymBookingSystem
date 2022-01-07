@@ -3,6 +3,7 @@ using GymBookingSystem.Data.Models;
 using GymBookingSystem.Logic.Interfaces.Service;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace GymBookingSystem.Logic.Features.Service
 {
@@ -32,6 +33,15 @@ namespace GymBookingSystem.Logic.Features.Service
         {
             return _dbContext.Reservations.ToList();
         }
+
+        public List<Reservation> GetReservationsForCurrentUser(string userId)
+        {
+            var reservations = _dbContext.Reservations.Where(x => x.UserId == userId);
+            return reservations.ToList();
+            
+
+        }
+
         public void SaveReservation(Reservation reservation)
         {
             if (reservation.Id == 0) _dbContext.Reservations.Add(reservation);
