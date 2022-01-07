@@ -1,37 +1,47 @@
 ﻿@page "/reservation"
-@using System.ComponentModel.DataAnnotations
+
 @inject IMachineService machineService
 @inject IReservationService reservationService
 @inject IUserService userService
 @inject ISnackbar snackBar
 
 
-<EditForm Model="@reservation" OnValidSubmit="OnValidSubmit">
-        <DataAnnotationsValidator />
+<EditForm Model="@ReservationModel" OnValidSubmit=@Submit>
+    <FluentValidationValidator/>
     <MudCard Class="pa-4 mr-16">
     <MudItem xs="12" sm="6" md="4">
-        <MudSelect T="int" Label="Select Machine" Variant="Variant.Outlined" Margin="Margin.Normal" @bind-Value="reservation.MachineId" For="@(() => reservation.MachineId)">
+        <MudSelect T="int" Label="Select Machine" Variant="Variant.Outlined" Margin="Margin.Normal" @bind-Value="@ReservationModel.MachineId" >
+            
             @foreach (var machine in machines)
             {
                 <MudSelectItem Value="@(machine.Id)"> @(machine.Name) </MudSelectItem>
             }
+                
+
         </MudSelect>
-
-        
-
+       
+       <MudText Color="@Color.Error">
+       <ValidationMessage For="@(() => ReservationModel.MachineId)"/>
+       </MudText>
     </MudItem>
 
     <MudItem xs="12" sm="6" md="4">
-        <MudDatePicker Label="When you want to start?" Margin="Margin.Normal" @bind-Date="reservation.ReservationDate" For="@(() => reservation.ReservationDate)" DateFormat="dd/MM/yyyy" MinDate="DateTime.Now" MaxDate="DateTime.Now.AddDays(7)"  />
+        <MudDatePicker Label="When you want to start?" Margin="Margin.Normal" @bind-Date="@ReservationModel.ReservationDate" DateFormat="dd/MM/yyyy" MinDate="DateTime.Now" MaxDate="DateTime.Now.AddDays(7)"  />
+        <MudText Color="@Color.Error">
+        <ValidationMessage For="@(() => ReservationModel.ReservationDate)"/>
+        </MudText>
     </MudItem>
 
     <MudItem xs="12" sm="6" md="4">
-        <MudTimePicker Label="10-18" Margin="Margin.Normal" @bind-Time="reservation.StartHour" For="@(() => reservation.StartHour)"  />
+        <MudTimePicker Label="10-18" Margin="Margin.Normal" @bind-Time="@ReservationModel.StartHour" />
+        <MudText Color="@Color.Error">
+        <ValidationMessage For="@(() => ReservationModel.StartHour)"/>
+        </MudText>
     </MudItem>
 
     
     <MudCardActions>
-                <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Primary" Class="ml-auto" >Save</MudButton>
+                <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Primary" Class="ml-auto" >Submit</MudButton>
     </MudCardActions>
 
     </MudCard>
@@ -42,18 +52,31 @@
     private string UserId { get; set; }
     bool success;
 
-    private Machine machine = new Machine();
-    private Reservation reservation = new Reservation();
-
     private List<Machine> machines = new List<Machine>();
     private List<Reservation> reservations = new List<Reservation>();
 
+    
+    
+
+    
+
+    [Parameter]
+    public Reservation ReservationModel { get; set; }
+
+    [Parameter]
+    public Machine MachineModel { get; set; }
+
+    [Parameter]
+    public EventCallback<Reservation> OnSubmit { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
+        ReservationModel = new Reservation();
+        MachineModel = new Machine();
+        
         await base.OnInitializedAsync();
         GetMachines();
-        GetReservations();
+        
     }
 
     private List<Machine> GetMachines()
@@ -62,40 +85,28 @@
         return machines;
     }
 
-    private List<Reservation> GetReservations()
-    {
-        reservations = reservationService.GetReservations();
-        return reservations;
-    }
-
     private string GetUserId()
     {
-        reservation.UserId = userService.GetUserId();
+        ReservationModel.UserId = userService.GetUserId();
         return UserId;
     }
 
-    private void OnValidSubmit(EditContext context)
-    {
-        success = true;
-        StateHasChanged();
-        Save();
-    }
 
-    private void Save()
+    private async Task Submit()
     {
+        
         GetUserId();
         EndHour();
-        reservationService.SaveReservation(reservation);
-        reservation = new Reservation();
+        reservationService.SaveReservation(ReservationModel);
         snackBar.Add("Saved.", Severity.Success);
-
-
-
+        
+        await OnSubmit.InvokeAsync(ReservationModel);
     }
+
 
     private TimeSpan? EndHour()
     {
-        return reservation.EndHour = reservation.StartHour + new TimeSpan(0, 15, 0);
+        return  ReservationModel.EndHour =  ReservationModel.StartHour + new TimeSpan(0, 15, 0);
 
     }
 
