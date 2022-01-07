@@ -1,0 +1,98 @@
+﻿@page "/myreservations"
+
+@using GymBookingSystem.Data.Models
+@inject IReservationService reservationService
+@inject IUserService userService
+@inject ISnackbar snackBar
+
+<MudCard Elevation="25">
+    <MudCardHeader>
+        <CardHeaderContent>
+            <MudText Typo="Typo.h6">Your Reservations</MudText>
+        </CardHeaderContent>
+    </MudCardHeader>
+</MudCard>
+<br />
+<MudTable Elevation="25" Items="GetReservationsForCurrentUser()"  @bind-customer="reservation">
+    
+    <HeaderContent>
+        <MudTh>Id</MudTh>
+        <MudTh>Machine</MudTh>
+        <MudTh>Date</MudTh>
+        <MudTh>Start</MudTh>
+        <MudTh>End</MudTh>
+        <MudTh>Actions</MudTh>
+    </HeaderContent>
+    <RowTemplate>
+        <MudTd DataLabel="Id">@context.Id</MudTd>
+        <MudTd DataLabel="MachineId">@context.MachineId</MudTd>
+        <MudTd DataLabel="Date">@context.ReservationDate</MudTd>
+        <MudTd DataLabel="Start">@context.StartHour</MudTd>
+        <MudTd DataLabel="End">@context.EndHour</MudTd>
+        <MudTd DataLabel="">
+            <MudFab @onclick="@(()=>Edit(@context.Id))" Color="Color.Primary" Icon="@Icons.Material.Filled.Edit" Size="Size.Small" IconSize="Size.Small" />
+            <MudFab @onclick="@(()=>Delete(@context.Id))" Color="Color.Secondary" Icon="@Icons.Material.Filled.Delete" Size="Size.Small" IconSize="Size.Small" />
+        </MudTd>
+    </RowTemplate>
+</MudTable>
+
+
+
+
+
+
+@code {
+
+
+    private int searchInt;
+    private string userId;
+
+    private Reservation reservation = new Reservation();
+    private List<Reservation> reservations = new List<Reservation>();
+    protected override async Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+        GetUserId();
+        GetReservationsForCurrentUser();
+
+    }
+
+    
+    private List<Reservation>  GetReservationsForCurrentUser()
+    {
+        reservations = reservationService.GetReservationsForCurrentUser(userId);
+        return reservations;
+
+    }
+
+    private string GetUserId()
+    {
+        return userId = userService.GetUserId();
+        
+    }
+
+    
+    private void Save()
+    {
+        reservationService.SaveReservation(reservation);
+        reservation = new Reservation();
+        snackBar.Add("Reservations Saved.", Severity.Success);
+        
+    }
+    private void Edit(int id)
+    {
+        reservation = reservations.FirstOrDefault(c => c.Id == id);
+    }
+    private void Delete(int id)
+    {
+        reservationService.DeleteReservation(id);
+        snackBar.Add("Reservation Deleted.", Severity.Success);
+        
+    }
+
+
+
+
+
+
+}
