@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Security.Claims;
@@ -9,7 +10,7 @@ namespace GymBookingSystem.Data.Models
     public class ApplicationUser : IdentityUser
     {
         
-
+        
         public virtual ICollection<Reservation> Reservations { get; set; }
     }
 }

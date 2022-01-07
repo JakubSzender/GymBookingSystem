@@ -34,23 +34,19 @@ namespace GymBookingSystem.Data
                 new Machine { Id =4 ,Name = "Machine4"  },
                 new Machine { Id =5 ,Name = "Machine5"  },
                 new Machine { Id =6 ,Name = "Machine6"  }
-               
-                
-                
-                );
+                                                        );
 
-            /*modelBuilder.Entity<Reservation>()
-            .HasKey(t => new { t.Id, t.UserId, t.MachineId });*/
-
+            //Reservation -> User
             modelBuilder.Entity<Reservation>()
-           .HasOne(pt => pt.ApplicationUser)
-           .WithMany(p => p.Reservations)
-           .HasForeignKey(pt => pt.UserId);
+             .HasOne(pt => pt.ApplicationUser)
+             .WithMany(p => p.Reservations)
+             .HasForeignKey(pt => pt.UserId);
 
+            //Reservation -> Machine
             modelBuilder.Entity<Reservation>()
-                .HasOne(pt => pt.Machine)
-                .WithMany(t => t.Reservations)
-                .HasForeignKey(pt => pt.MachineId);
+              .HasOne(pt => pt.Machine)
+              .WithMany(t => t.Reservations)
+              .HasForeignKey(pt => pt.MachineId);
         }
     }
 }
