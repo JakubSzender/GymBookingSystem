@@ -1,0 +1,69 @@
+﻿@page "/reservationsTable"
+
+
+@inject IReservationService reservationService
+@inject MudBlazor.ISnackbar snackBar
+
+<MudTable Elevation="25" Items="GetReservations()"  @bind-customer="reservation">
+    
+    <HeaderContent>
+        <MudTh>Id</MudTh>
+        <MudTh>UserId</MudTh>
+        <MudTh>GymMachineId</MudTh>
+        <MudTh>WorkoutDateStart</MudTh>
+        <MudTh>WorkoutHourStart</MudTh>
+        <MudTh>WorkoutTime</MudTh>
+        <MudTh>Actions</MudTh>
+    </HeaderContent>
+    <RowTemplate>
+        <MudTd DataLabel="Id">@context.Id</MudTd>
+        <MudTd DataLabel="UserId">@context.UserId</MudTd>
+        <MudTd DataLabel="GymMachineId">@context.MachineId</MudTd>
+        <MudTd DataLabel="Date">@context.ReservationDate</MudTd>
+        <MudTd DataLabel="End">@context.StartHour</MudTd>
+        <MudTd DataLabel="Start">@context.EndHour</MudTd>
+        <MudTd DataLabel="">
+            <MudFab @onclick="@(()=>Edit(@context.Id))" Color="Color.Primary" Icon="@Icons.Material.Filled.Edit" Size="Size.Small" IconSize="Size.Small" />
+            <MudFab @onclick="@(()=>Delete(@context.Id))" Color="Color.Secondary" Icon="@Icons.Material.Filled.Delete" Size="Size.Small" IconSize="Size.Small" />
+        </MudTd>
+    </RowTemplate>
+</MudTable>
+
+
+
+
+
+
+@code {
+
+    private int searchInt;
+    private Reservation reservation = new Reservation();
+    private List<Reservation> reservations = new List<Reservation>();
+    protected override async Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+        GetReservations();
+    }
+    private List<Reservation> GetReservations()
+    {
+        reservations = reservationService.GetReservations();
+        return reservations;
+    }
+   
+    private void Edit(int id)
+    {
+        reservation = reservations.FirstOrDefault(c => c.Id == id);
+    }
+    private void Delete(int id)
+    {
+        reservationService.DeleteReservation(id);
+        snackBar.Add("Reservation Deleted.", Severity.Success);
+        GetReservations();
+    }
+
+
+
+
+
+
+}

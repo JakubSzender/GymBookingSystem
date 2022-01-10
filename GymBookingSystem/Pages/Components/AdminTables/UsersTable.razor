@@ -1,0 +1,79 @@
+﻿@page "/usersTable"
+
+@inject IUserService userService
+@inject ISnackbar snackBar
+
+
+
+<MudTable Elevation="25" Items="GetUsers()" Filter="new Func<ApplicationUser, bool>(Search)" @bind-customer="user">
+    <ToolBarContent>
+        <MudText Typo="Typo.h6">Users</MudText>
+        <MudToolBarSpacer />
+        <MudTextField @bind-Value="searchString" Placeholder="Search for Users..." Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0"></MudTextField>
+    </ToolBarContent>
+    <HeaderContent>
+        <MudTh>Id</MudTh>
+        <MudTh>Email</MudTh>
+        <MudTh>Confirmed</MudTh>
+        <MudTh>Role</MudTh>
+        <MudTh>Actions</MudTh>
+    </HeaderContent>
+    <RowTemplate>
+        <MudTd DataLabel="Id">@context.Id</MudTd>
+        <MudTd DataLabel="Email">@context.Email</MudTd>
+        <MudTd DataLabel="Email">@context.EmailConfirmed</MudTd>
+        
+        <MudTd DataLabel="">
+            <MudFab @onclick="@(()=>Edit(@context.Id))" Color="Color.Primary" Icon="@Icons.Material.Filled.Edit" Size="Size.Small" IconSize="Size.Small" />
+            <MudFab @onclick="@(()=>Delete(@context.Id))" Color="Color.Secondary" Icon="@Icons.Material.Filled.Delete" Size="Size.Small" IconSize="Size.Small" />
+        </MudTd>
+    </RowTemplate>
+</MudTable>
+
+
+
+
+
+
+@code {
+
+    private string searchString = "";
+    private ApplicationUser user = new ApplicationUser();
+    private List<ApplicationUser> users = new List<ApplicationUser>();
+    protected override async Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+        GetUsers();
+    }
+    private List<ApplicationUser> GetUsers()
+    {
+        users = userService.GetUsers();
+        return users;
+    }
+    private bool Search(ApplicationUser user)
+    {
+        if (string.IsNullOrWhiteSpace(searchString)) return true;
+        if (user.Email.Contains(searchString, StringComparison.OrdinalIgnoreCase))
+        {
+            return true;
+        }
+        return false;
+    }
+  
+    private void Edit(string id)
+    {
+        user = users.FirstOrDefault(c => c.Id == id);
+    }
+    private void Delete(string id)
+    {
+        userService.DeleteUser(id);
+        snackBar.Add("User Deleted.", Severity.Success);
+        GetUsers();
+    }
+
+
+
+
+
+
+}

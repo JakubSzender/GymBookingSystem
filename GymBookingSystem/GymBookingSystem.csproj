@@ -33,6 +33,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Data\Controller\" />
+    <Folder Include="Logic\Features\Enums\" />
     <Folder Include="Logic\Features\Helpers\" />
     <Folder Include="Logic\Interfaces\Entities\" />
     <Folder Include="Migrations\" />
