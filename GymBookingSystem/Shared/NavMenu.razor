@@ -2,12 +2,19 @@
     <AuthorizeView>
         <Authorized>
             <MudNavLink Href="" Match="NavLinkMatch.All" Icon="@Icons.Material.Filled.Home">Home</MudNavLink>
-            <MudNavLink Href="/reservation" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.Add">Make Reservation</MudNavLink>
-            <MudNavLink Href="/myreservations" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.Add">My Reservations</MudNavLink>
-            <MudNavLink Href="/usersTable" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.Add">Users</MudNavLink>
-            <MudNavLink Href="/machinesTable" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.Add">Machines</MudNavLink>
-            <MudNavLink Href="/reservationsTable" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.Add">Reservations</MudNavLink>
+            <MudNavLink Href="/reservation" Match="NavLinkMatch.Prefix" Icon="@Icons.Filled.MenuBook">Make Reservation</MudNavLink>
+            <MudNavLink Href="/myreservations" Match="NavLinkMatch.Prefix" Icon="@Icons.Filled.Book">My Reservations</MudNavLink>
         </Authorized>
+    </AuthorizeView>
+
+    <AuthorizeView Roles="Admin">  
+            
+            <MudNavLink Href="/usersTable" Match="NavLinkMatch.Prefix" Icon="@Icons.Filled.AdminPanelSettings">Users</MudNavLink>
+            <MudNavLink Href="/machinesTable" Match="NavLinkMatch.Prefix" Icon="@Icons.Filled.AdminPanelSettings">Machines</MudNavLink>
+            <MudNavLink Href="/reservationsTable" Match="NavLinkMatch.Prefix" Icon="@Icons.Filled.AdminPanelSettings">Reservations</MudNavLink>
+    </AuthorizeView>
+
+    <AuthorizeView>
         <NotAuthorized>
              <MudNavLink Href="" Match="NavLinkMatch.All" Icon="@Icons.Material.Filled.Home">Home</MudNavLink>
         </NotAuthorized>

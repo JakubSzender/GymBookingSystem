@@ -14,9 +14,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Data\Controller\**" />
     <Compile Remove="Data\Migrations\**" />
+    <Content Remove="Data\Controller\**" />
     <Content Remove="Data\Migrations\**" />
+    <EmbeddedResource Remove="Data\Controller\**" />
     <EmbeddedResource Remove="Data\Migrations\**" />
+    <None Remove="Data\Controller\**" />
     <None Remove="Data\Migrations\**" />
   </ItemGroup>
 
@@ -33,7 +37,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Data\Controller\" />
     <Folder Include="Logic\Features\Enums\" />
     <Folder Include="Logic\Features\Helpers\" />
     <Folder Include="Logic\Interfaces\Entities\" />
