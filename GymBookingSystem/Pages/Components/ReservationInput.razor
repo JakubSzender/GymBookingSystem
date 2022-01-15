@@ -33,7 +33,7 @@
     </MudItem>
 
     <MudItem xs="12" sm="6" md="4">
-        <MudTimePicker Label="10-18" Margin="Margin.Normal" @bind-Time="@ReservationModel.StartHour" />
+        <MudTimePicker Label="Please select hour from 10am to 18pm"  Margin="Margin.Normal" @bind-Time="@ReservationModel.StartHour" />
         <MudText Color="@Color.Error">
         <ValidationMessage For="@(() => ReservationModel.StartHour)"/>
         </MudText>

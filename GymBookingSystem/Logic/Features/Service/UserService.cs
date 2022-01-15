@@ -25,7 +25,6 @@ namespace GymBookingSystem.Logic.Features.Service
             _dbContext = dbContext;
         }
 
-
         public string GetUserId()
         {
             return _httpContext.HttpContext.User?.FindFirstValue(ClaimTypes.NameIdentifier);

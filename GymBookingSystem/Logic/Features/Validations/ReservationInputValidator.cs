@@ -16,11 +16,12 @@ namespace GymBookingSystem.Logic.Features.Validations
 				.WithMessage("This field can't be empty");
 			RuleFor(x => x.StartHour).NotEmpty()
 					.WithMessage("This field can't be empty");
-			RuleFor(x => x.StartHour).GreaterThanOrEqualTo(openHour).LessThanOrEqualTo(closeHour)
+			RuleFor(x => x.StartHour).ExclusiveBetween(openHour, closeHour)
 					.WithMessage("Please pick hour form 10 to 18");
 			RuleFor(x => x.MachineId).NotEmpty()
 					.WithMessage("Please pick machine");
 			
+
 		}
 
 		
