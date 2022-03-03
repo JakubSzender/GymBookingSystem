@@ -9,8 +9,8 @@ Instrukcja:
 4. Po przejściu w zakładkę rezerwacje widzimy nasze dokonane rezerwacje
 
 Wykorzystanie technologie:
-ASP.NET Blazor
-ASP.NET Identity
-MudBlazor
-EntityFramework (CodeFirst Approach)
+ASP.NET Blazor,
+ASP.NET Identity,
+MudBlazor,
+EntityFramework (CodeFirst Approach),
 SQLite
