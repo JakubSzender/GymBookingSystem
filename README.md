@@ -1,5 +1,5 @@
 # GymBookingSystem
-Aplikacja pozwala na zarezerwowanie maszyny na siłowni.
+Aplikacja pozwala na zarezerwowanie maszyny na siłowni na wybrany dzień i godzinę.
 
 
 Instrukcja:
