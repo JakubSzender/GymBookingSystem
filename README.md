@@ -1,11 +1,14 @@
 # GymBookingSystem
 
-I wrote this app to devolp my c# skills
+I wrote this app to develop my c# skills and i was curious about blazor technology 
 
 ## Description
 
-It is simple booking app with CRUD function, When you enter site you are authorized to read only. When you register and log in you have the same permissions.
-As default registered user is assigned to group "customer". When you get "admin" rights you are abble to edit and delete data.
+It is simple booking app with CRUD function, as registered user you can make a reservation and acces list of all your bookings.
+
+When you enter site you are authorized to read only. When you register and log in you have the same permissions.
+As default registered user is assigned to group "users". When you get "admin" rights you acquire acces to admin table and you are abble to edit and delete data.
+
 
 ### Built With
 
